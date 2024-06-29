@@ -1,6 +1,13 @@
-import "@/styles/globals.css";
-import type { AppProps } from "next/app";
+import ReduxProvider from "@/Store/ReduxProvider";
+import "@/Styles/globals.scss";
+import { AppProps } from "next/app";
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <ReduxProvider>
+      <Component {...pageProps} />
+    </ReduxProvider>
+  );
 }
+
+export default MyApp;
