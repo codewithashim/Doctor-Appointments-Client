@@ -1,15 +1,24 @@
 'use client'
 import React from 'react';
-import RootLayout from '@/Layouts/RootLayout';
 import Contact from '@/Components/Global/Contact/Contact';
+import Preloader from '@/Components/Global/Preloader/Preloader';
+import dynamic from 'next/dynamic';
+
+const DynamicRootLayout = dynamic(() => import('@/Layouts/RootLayout'), {
+    ssr: false,
+    loading: () => <div>
+        <Preloader />
+    </div>,
+});
+
 
 const ContactPage = () => {
     return (
-        <RootLayout>
+        <DynamicRootLayout>
             <section className="h-[70vh]">
-            <Contact/>
+                <Contact />
             </section>
-        </RootLayout>
+        </DynamicRootLayout>
     );
 };
 

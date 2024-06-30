@@ -1,5 +1,5 @@
+'use client';
 import { Button } from "@/Components/Global/Button/Button";
-import RootLayout from "@/Layouts/RootLayout";
 import { useAppDispatch } from "@/Store";
 import { openNotificationWithIcon } from "@/Components/Global/Message/Message";
 import { setAuthState } from "@/Store/authSlice";
@@ -9,6 +9,14 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
+import Preloader from "@/Components/Global/Preloader/Preloader";
+import dynamic from "next/dynamic";
+const DynamicRootLayout = dynamic(() => import('@/Layouts/RootLayout'), {
+  ssr: false,
+  loading: () => <div>
+    <Preloader />
+  </div>,
+});
 
 const UserLoginPage = () => {
   const {
@@ -63,7 +71,7 @@ const UserLoginPage = () => {
   };
 
   return (
-    <RootLayout>
+    <DynamicRootLayout>
       <div className="container py-10">
         <div className="bg-[#ffffff92] mx-auto rounded-xl p-6 sm:p-8 md:p-10 w-full xl:max-w-[50%]">
           <div>
@@ -132,7 +140,7 @@ const UserLoginPage = () => {
           </div>
         </div>
       </div>
-    </RootLayout>
+    </DynamicRootLayout>
   );
 };
 

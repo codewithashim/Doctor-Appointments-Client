@@ -1,6 +1,7 @@
+'use client';
+/* eslint-disable @next/next/no-img-element */
 import { useAppDispatch } from "@/Store";
 import { openNotificationWithIcon } from "@/Components/Global/Message/Message";
-import { setAuthState } from "@/Store/authSlice";
 import { SIGNUP_URL } from "@/Utils/Urls/Authurl/Authurl";
 import axios from "axios";
 import Link from "next/link";
@@ -8,10 +9,19 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/Components/Global/Button/Button";
-import RootLayout from "@/Layouts/RootLayout";
 import { Upload, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import type { UploadFile } from 'antd/es/upload/interface';
+import Preloader from "@/Components/Global/Preloader/Preloader";
+import dynamic from "next/dynamic";
+
+const DynamicRootLayout = dynamic(() => import('@/Layouts/RootLayout'), {
+  ssr: false,
+  loading: () => <div>
+      <Preloader />
+  </div>,
+});
+
 
 interface FormData {
   email: string;
@@ -20,14 +30,12 @@ interface FormData {
   password: string;
   confirmPassword: string;
 }
-
-const UserSignupPage: React.FC = () => {
+const Signup: React.FC = () => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
-
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const router = useRouter();
-  const dispatch = useAppDispatch();
+ 
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -81,7 +89,7 @@ const UserSignupPage: React.FC = () => {
   };
 
   return (
-    <RootLayout>
+    <DynamicRootLayout>
       <div className="container py-4">
         <div className="bg-[#ffffff92] mx-auto rounded-xl p-6 sm:p-8 md:p-10 w-full xl:max-w-[70%]">
           <div>
@@ -214,8 +222,8 @@ const UserSignupPage: React.FC = () => {
           </div>
         </div>
       </div>
-    </RootLayout>
+    </DynamicRootLayout>
   );
 };
 
-export default UserSignupPage;
+export default Signup;

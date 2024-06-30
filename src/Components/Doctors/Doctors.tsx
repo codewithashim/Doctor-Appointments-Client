@@ -12,6 +12,7 @@ import { TimeSlot } from '@/Type/CommonType';
 import axios from 'axios';
 import useDoctor from '@/Hooks/useDoctor';
 import usePatient from '@/Hooks/usePatient';
+import DoctorHero from './DoctorHero/DoctorHero';
 
 const { Meta } = Card;
 const { RangePicker } = DatePicker;
@@ -75,10 +76,12 @@ const Doctors: React.FC = () => {
     };
 
     return (
+    <>
+        <DoctorHero/>
         <section className='container mx-auto px-4 py-8'>
             <h2 className='text-3xl font-bold mb-6 text-center'>Our Doctors</h2>
             <Row gutter={[16, 16]}>
-                {getAllDoctor?.map((doctor: Doctor) => (
+                {getAllDoctor?.map((doctor: any) => (
                     <Col xs={24} sm={12} md={8} lg={6} xl={6} key={doctor._id}>
                         <Card
                             hoverable
@@ -117,7 +120,7 @@ const Doctors: React.FC = () => {
 
             {/* Appointment Booking Modal */}
             <Modal
-                title={`Book Appointment with Dr. ${getAllDoctor?.find(d => d._id === selectedDoctorId)?.name}`}
+                title={`Book Appointment with Dr. ${getAllDoctor?.find((d: any) => d._id === selectedDoctorId)?.name}`}
                 visible={isModalVisible}
                 onCancel={handleCancel}
                 footer={[
@@ -159,6 +162,7 @@ const Doctors: React.FC = () => {
                 </Form>
             </Modal>
         </section>
+    </>
     );
 };
 
