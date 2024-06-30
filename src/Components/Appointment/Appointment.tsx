@@ -11,18 +11,15 @@ import { useAppSelector } from "@/Store";
 import { useRouter } from 'next/router';
 import { CREATE_APPOINTMENT } from '@/Utils/Urls/Appointments/AppointmentsUrl';
 import { openNotificationWithIcon } from '../Global/Message/Message';
+import { mockTimeSlots } from '@/Utils/Mock/CommonData';
+import { TimeSlot } from '@/Type/CommonType';
 
 interface Doctor {
   _id: string;
   name: string;
   specialty: string;
 }
-
-interface TimeSlot {
-  value: string;
-  label: string;
-}
-
+ 
 const Appointment: React.FC = () => {
   const { id, authtoken } = useAppSelector((store) => store.auth);
   const isLogin = useAppSelector((state) => state.auth.authState);
@@ -31,21 +28,13 @@ const Appointment: React.FC = () => {
   const [form] = Form.useForm();
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   const router = useRouter();
-  
+
   useEffect(() => {
     if (!isLogin) {
       router.push('/auth/login');
     } 
   }, [isLogin, router]);
  
-  const mockTimeSlots: TimeSlot[] = [
-    { value: '09:00', label: '09:00 AM' },
-    { value: '10:00', label: '10:00 AM' },
-    { value: '11:00', label: '11:00 AM' },
-    { value: '14:00', label: '02:00 PM' },
-    { value: '15:00', label: '03:00 PM' },
-    { value: '16:00', label: '04:00 PM' },
-  ];
 
   const handleSubmit = async (values: any) => {
     try {

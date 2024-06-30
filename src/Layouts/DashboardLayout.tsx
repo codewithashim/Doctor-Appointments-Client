@@ -8,9 +8,12 @@ import {
   TeamOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useAppDispatch, useAppSelector } from "@/Store";
+import { clearAuthState } from "@/Store/authSlice";
 
 const { Header, Sider, Content } = Layout;
 
@@ -23,6 +26,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const [mobileView, setMobileView] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const handleResize = () => {
@@ -56,17 +60,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     {
       key: "profile",
       icon: <UserOutlined />,
-      label: <Link href="/profile">Profile</Link>,
-    },
-    {
-      key: "team",
-      icon: <TeamOutlined />,
-      label: <Link href="/team">Team</Link>,
-    },
-    {
-      key: "files",
-      icon: <FileOutlined />,
-      label: <Link href="/files">Files</Link>,
+      label: <Link href="/dashboard">Profile</Link>,
     },
   ];
 
@@ -75,6 +69,11 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     if (mobileView) {
       setDrawerVisible(false);
     }
+  };
+
+  const handleLogout = () => {
+    dispatch(clearAuthState());
+    router.push("/");
   };
 
   const SidebarContent = () => (
@@ -87,6 +86,14 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         items={menuItems}
         onClick={handleMenuClick}
       />
+      <Button
+        className="mt-2 ml-3"
+        type="primary"
+        onClick={handleLogout}
+        icon={<LogoutOutlined />}
+      >
+        Logout
+      </Button>
     </>
   );
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { GET_PATIENT_BY_USER_ID } from "@/Utils/Urls/Patients/PatientsUrl";
 import axios from "axios";
 import { useEffect,useState } from "react";
@@ -39,7 +40,7 @@ const usePatient = () => {
     } 
   }, []);
 
-  const patientId = patientData.id;
+  const patientId = patientData?.id!;
   
   
   return {

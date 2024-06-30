@@ -3,7 +3,9 @@ import React from 'react';
 import useAuth from '@/Hooks/useAuth';
 import Preloader from "@/Components/Global/Preloader/Preloader";
 import dynamic from 'next/dynamic';
-
+const DynamicDashboard = dynamic(() => import('@/Components/Dashboard/Dashboard/Dashboard'), {
+  ssr: false
+});
 const DynamicDashboardLayout = dynamic(() => import('@/Layouts/DashboardLayout'), {
     ssr: false,
     loading: () => <div>
@@ -11,7 +13,7 @@ const DynamicDashboardLayout = dynamic(() => import('@/Layouts/DashboardLayout')
     </div>,
 });
 
-const Dashboard = () => {
+const DashboardPage = () => {
     const { isLogin, isHydrated } = useAuth();
 
     if (!isHydrated) {
@@ -20,9 +22,10 @@ const Dashboard = () => {
 
     return (
         <DynamicDashboardLayout>
-            <h1>Dashboard</h1>
+            <DynamicDashboard/>
         </DynamicDashboardLayout>
     );
 };
 
-export default Dashboard;
+
+export default DashboardPage;
