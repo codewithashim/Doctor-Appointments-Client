@@ -28,6 +28,14 @@ const NavItems = (
     </li>
     <li className="flex">
       <Link
+        href="/doctors"
+        className="text-[#211f1f] hover:text-[#19D3AE] duration-200 text-[18px] font-semibold active:font-semibold cursor-pointer"
+      >
+       Our Doctors
+      </Link>
+    </li>
+    <li className="flex">
+      <Link
         href="/contact"
         className="text-[#211f1f] hover:text-[#19D3AE] duration-200 text-[18px] font-semibold active:font-semibold cursor-pointer"
       >

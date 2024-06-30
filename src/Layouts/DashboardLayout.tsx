@@ -4,11 +4,10 @@ import { Layout, Menu, Button, Drawer } from "antd";
 import {
   UserOutlined,
   DashboardOutlined,
-  FileOutlined,
-  TeamOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   LogoutOutlined,
+  HomeOutlined
 } from "@ant-design/icons";
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -61,6 +60,11 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       key: "profile",
       icon: <UserOutlined />,
       label: <Link href="/dashboard">Profile</Link>,
+    },
+    {
+      key: '/',
+      icon: <HomeOutlined />,
+      label: <Link href="/">Home</Link>,
     },
   ];
 

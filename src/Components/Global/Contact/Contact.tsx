@@ -16,7 +16,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section className="p-10 mb-6  bg-fixed  container rounded makeAppointment">
+    <section className="p-10 mb-6 h-full bg-fixed flex flex-col justify-center items-center  container rounded makeAppointment">
       <div className="text-center">
         <h1 className="text-2xl font-bold text-center text-secondary">
           Contact Us
