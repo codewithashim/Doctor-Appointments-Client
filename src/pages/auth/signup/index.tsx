@@ -9,9 +9,6 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/Components/Global/Button/Button";
-import { Upload, message } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
-import type { UploadFile } from 'antd/es/upload/interface';
 import Preloader from "@/Components/Global/Preloader/Preloader";
 import dynamic from "next/dynamic";
 
@@ -22,32 +19,35 @@ const DynamicRootLayout = dynamic(() => import('@/Layouts/RootLayout'), {
   </div>,
 });
 
-
 interface FormData {
   email: string;
   name: string;
   phone: string;
   password: string;
   confirmPassword: string;
+  profile?: File;
 }
+
 const Signup: React.FC = () => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const router = useRouter();
- 
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit = async (data: FormData) => {
     try {
+      setLoading(true);
+
       const formData = new FormData();
       formData.append("email", data.email);
       formData.append("name", data.name);
       formData.append("phone", data.phone);
       formData.append("password", data.password);
+      formData.append("confirmPassword", data.confirmPassword);
       formData.append("role", "Patient");
       
-      if (fileList.length > 0) {
-        formData.append("profile", fileList[0].originFileObj as Blob);
+      if (data.profile) {
+        formData.append("profile", data.profile);
       }
 
       const response = await axios.post(SIGNUP_URL, formData, {
@@ -56,7 +56,7 @@ const Signup: React.FC = () => {
         },
       });
 
-      if (response?.status===200) {
+      if (response?.status === 200) {
         openNotificationWithIcon(
           "success",
           "Signup Successful",
@@ -72,20 +72,26 @@ const Signup: React.FC = () => {
       }
     } catch (err) {
       openNotificationWithIcon("error", "Signup Failed", `${err}`);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleUploadChange = ({ fileList: newFileList }: { fileList: UploadFile[] }) => {
-    setFileList(newFileList);
-    if (newFileList.length > 0) {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setImageUrl(e.target?.result as string);
+      reader.onload = () => {
+        setImageUrl(reader.result as string);
       };
-      reader.readAsDataURL(newFileList[0].originFileObj as Blob);
-    } else {
-      setImageUrl(null);
+      reader.readAsDataURL(file);
     }
+  };
+
+  const removeImage = () => {
+    setImageUrl(null);
+    // Clear file input if needed
+    // document.getElementById('fileInput').value = ''; 
   };
 
   return (
@@ -119,7 +125,7 @@ const Signup: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-col mt-4 gap-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col mt-4 gap-4">
               <div>
                 <label className="text-[1.2rem] md:text-[1.3rem]">
                   Full Name
@@ -194,31 +200,38 @@ const Signup: React.FC = () => {
                   </p>
                 )}
               </div>
-              <div>
-                <Upload
-                  fileList={fileList}
-                  onChange={handleUploadChange}
-                  beforeUpload={() => false}
-                  listType="picture"
-                >
-                  <Button
-                    title="Upload Profile Picture"
-                    icon={<UploadOutlined />}
-                    className="text-white px-8 md:px-10 py-2 md:py-3"
-                  />
-                </Upload>
+              <div className="flex items-center gap-4">
+                <label className="text-[1.2rem] md:text-[1.3rem]">
+                  Profile Picture
+                </label>
                 {imageUrl && (
-                  <img src={imageUrl} alt="Profile Preview" className="mt-4 w-32 h-32 object-cover rounded-full" />
+                  <div className="flex items-center">
+                    <img src={imageUrl} alt="Profile Preview" className="w-20 h-20 object-cover rounded-full" />
+                    <button
+                      type="button"
+                      onClick={removeImage}
+                      className="ml-2 text-sm text-red-600"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                )}
+                {!imageUrl && (
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="my-2 md:my-3"
+                  />
                 )}
               </div>
-            </div>
-            <div className="flex justify-end my-4">
-              <Button
-                title="Sign Up"
-                onClick={handleSubmit(onSubmit)}
-                className="text-white px-8 md:px-10 py-2 md:py-3"
-              />
-            </div>
+              <div className="flex justify-end my-4">
+                <Button
+                  title={loading ? 'Submiting...' : 'Sign Up'}
+                  className={`text-white px-8 md:px-10 py-2 md:py-3 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                />
+              </div>
+            </form>
           </div>
         </div>
       </div>

@@ -1,14 +1,12 @@
-# Setup The Project
+# rdSetup The Project
 
 ```
 git clone https://github.com/codewithashim/Doctor-Appointments-Client.git
 ```
 
-
 ```
 cd Doctor-Appointments-Client 
 ```
-
 
 ```
 npm install
@@ -35,3 +33,11 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ```
 
 ```
+
+# Cradentials
+
+
+For Patients
+
+Email : codewithahsim@gmail.com
+Password : 123456789
