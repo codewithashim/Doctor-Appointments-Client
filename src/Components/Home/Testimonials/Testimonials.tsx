@@ -43,7 +43,7 @@ const Testimonials: React.FC = () => {
         </div>
         <Image src={Quites} alt="Testimonial" width={80} height={80} />
       </div>
-      <div className="testimonialContainer md:flex gap-4 p-4">
+      <div className="testimonialContainer grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {testimonialData.map((testimonial) => (
           <Testimonial key={testimonial.id} testimonial={testimonial} />
         ))}

@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { FaCog, FaSignOutAlt, FaUser, FaUserCircle } from "react-icons/fa";
+import { FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/Store";
 import { clearAuthState } from "@/Store/authSlice";
@@ -26,24 +26,22 @@ const NavItems = (
         Appointment
       </Link>
     </li>
-
     <li className="flex">
       <Link
-        href="/"
+        href="/contact"
         className="text-[#211f1f] hover:text-[#19D3AE] duration-200 text-[18px] font-semibold active:font-semibold cursor-pointer"
       >
         Contact Us
       </Link>
     </li>
-   
   </>
 );
 
 const Navbar = () => {
-  const { userName } = useAppSelector((store: { auth: any; }) => store.auth);
+  const { name, profile } = useAppSelector((store) => store.auth);
+  const isLogin = useAppSelector((state) => state.auth.authState);
   const [open, setOpen] = useState<boolean>(false);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
-  const isLogin = useAppSelector((state: { auth: { authState: any; }; }) => state.auth.authState);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [isClient, setIsClient] = useState<boolean>(false);
   const router = useRouter();
@@ -110,33 +108,37 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="flex items-center gap-3 relative">
-          <div className="relative">
-            <div
-              className="w-10 h-10 rounded-full bg-[#19D3AE] flex items-center justify-center text-white font-semibold cursor-pointer"
-              onClick={handleDropdownToggle}
-            >
-              {isClient ? (
-                isLogin ? (
-                  <>{getFirstLetter(userName)}</>
+          {isLogin ? (
+            <div className="relative">
+              <div
+                className="w-10 h-10 rounded-full bg-[#19D3AE] flex items-center justify-center text-white font-semibold cursor-pointer"
+                onClick={handleDropdownToggle}
+              >
+                {isClient ? (
+                  profile ? (
+                    <Image
+                      src={profile}
+                      alt={name}
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
+                  ) : (
+                    getFirstLetter(name)
+                  )
                 ) : (
-                 <>
-                 <Button title={"Login"} link="/auth/login"/>
-                 </>
-                )
-              ) : (
-                "Loading"
-              )}
-            </div>
-            {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-52 bg-white border rounded shadow-lg">
-                {isLogin && (
+                  "Loading"
+                )}
+              </div>
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-52 bg-white border rounded shadow-lg">
                   <ul>
                     <li>
                       <Link
+                        href="/dashboard"
                         className="px-4 py-2 text-[#211f1f] hover:bg-gray-100 cursor-pointer flex items-center"
-                        href={"/dashboard"}
                       >
-                        <FaUserCircle className="mr-2" /> Profile
+                        <FaUserCircle className="mr-2" /> Dashboard
                       </Link>
                     </li>
                     <li
@@ -146,11 +148,13 @@ const Navbar = () => {
                       <FaSignOutAlt className="mr-2" /> Sign Out
                     </li>
                   </ul>
-                ) }
-              </div>
-            )}
-          </div>
-         
+                </div>
+              )}
+            </div>
+          ) : (
+            <Button title={"Login"} link="/auth/login" />
+          )}
+
           <button onClick={() => setOpen(!open)} className="p-4 ml-4 lg:hidden">
             {open ? (
               <svg
@@ -191,7 +195,6 @@ const Navbar = () => {
             <ul className="flex flex-col py-4 gap-3 lg:flex">{NavItems}</ul>
           </div>
         )}
-       
       </div>
     </header>
   );

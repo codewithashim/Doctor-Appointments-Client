@@ -102,6 +102,10 @@ input[type="number"]::-webkit-outer-spin-button {
   background-image: url(../assets/images/hero-section-bg.avif);
 }
 
+.bg-appointment-hero-section {
+  background-image: url(../assets/images/appointmentbanner.jpg);
+}
+
 .makeAppointment{
   background-image: url(../assets/images/appointment.png);
   background-size: "cover";
@@ -114,4 +118,21 @@ input[type="number"]::-webkit-outer-spin-button {
   background-size: "cover";
   background-position: "center";
   background-repeat: "no-repeat";
+}
+
+input:checked.defaultCheckbox::before {
+  opacity: 1;
+}
+
+.ant-select-selector{
+ height: 2rem !important;
+
+}
+
+.ant-select-selector{
+  padding: .8rem !important;
+}
+
+.ant-select-item-option{
+  font-size: 1.1rem !important;
 }

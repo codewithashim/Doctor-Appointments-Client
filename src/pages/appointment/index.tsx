@@ -1,11 +1,16 @@
-import Appointment from '@/Components/Appointment/Appointment';
+'use client'
 import RootLayout from '@/Layouts/RootLayout';
-import React from 'react';
+import dynamic from 'next/dynamic';
+
+const DynamicAppointment = dynamic(() => import('@/Components/Appointment/Appointment'), {
+    ssr: false,
+    loading: () => <p>Loading...</p>,
+});
 
 const AppointmentPage = () => {
     return (
         <RootLayout>
-           <Appointment/>
+            <DynamicAppointment />
         </RootLayout>
     );
 };

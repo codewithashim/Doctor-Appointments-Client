@@ -44,7 +44,7 @@ const ServicesSection: React.FC = () => {
         </h2>
         <p className="text-2xl">Services We Provide</p>
       </div>
-      <div className="servicesSection md:flex gap-4 p-4">
+      <div className="servicesSection grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-4">
         {servicesData.map((service) => (
           <Service key={service.id} service={service} />
         ))}

@@ -1,6 +1,6 @@
 import { BASE_URL } from "../../Network/Network";
 
-export const GET_ALL_APPOINTMENT = `${BASE_URL}/appointments/create`;
+export const CREATE_APPOINTMENT = `${BASE_URL}/appointments/create`;
 
 export const GET_APPOINTMENT_BY_USER_ID = (userId: any, userType: any) => `${BASE_URL}/appointments/user/${userId}/${userType}`;
 
