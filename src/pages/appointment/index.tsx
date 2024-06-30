@@ -1,10 +1,13 @@
 'use client'
-import RootLayout from '@/Layouts/RootLayout';
+import Preloader from "@/Components/Global/Preloader/Preloader"
 import dynamic from 'next/dynamic';
+import RootLayout from '@/Layouts/RootLayout';
 
 const DynamicAppointment = dynamic(() => import('@/Components/Appointment/Appointment'), {
     ssr: false,
-    loading: () => <p>Loading...</p>,
+    loading: () => <div>
+    <Preloader/>
+</div>,
 });
 
 const AppointmentPage = () => {

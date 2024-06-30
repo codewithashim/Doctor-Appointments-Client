@@ -27,26 +27,15 @@ const Appointment: React.FC = () => {
   const { id, authtoken } = useAppSelector((store) => store.auth);
   const isLogin = useAppSelector((state) => state.auth.authState);
   const { getAllDoctor } = useDoctor();
-  const { getPatientByUserId } = usePatient()
+  const { patientId } = usePatient()
   const [form] = Form.useForm();
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   const router = useRouter();
-  const [patientData, setPatientData] = useState<any>(null);
-  const fetchPatientData = async () => {
-    try {
-      const patient = await getPatientByUserId(id!, authtoken);
-      setPatientData(patient);
-    } catch (error) {
-      console.error('Error fetching patient data:', error);
-    }
-  };
-
+  
   useEffect(() => {
     if (!isLogin) {
       router.push('/auth/login');
-    } else {
-      fetchPatientData()
-    }
+    } 
   }, [isLogin, router]);
  
   const mockTimeSlots: TimeSlot[] = [
@@ -67,7 +56,7 @@ const Appointment: React.FC = () => {
         'Content-Type': 'application/json',
       };
       const bookingData = {
-        patient_id: patientData?.id,
+        patient_id: patientId,
         doctor_id: values?.doctor_id,
         appointment_date_time: values.appointment_date_time,
         time_slot: values.time_slot
