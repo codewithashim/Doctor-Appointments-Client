@@ -1,4 +1,4 @@
-# rdSetup The Project
+# Setup The Project
 
 ```
 git clone https://github.com/codewithashim/Doctor-Appointments-Client.git
@@ -11,6 +11,9 @@ cd Doctor-Appointments-Client
 ```
 npm install
 ```
+# Installation Demo : 
+https://www.loom.com/share/92fbaa1934934e7c86780aac7290a212?sid=348bab95-3637-4827-b067-0f874c80c488
+
 
 # Getting Started
 
